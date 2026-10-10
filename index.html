@@ -532,7 +532,7 @@
         <div class="foot-col"><h4>Get Started</h4><a href="#contact">Request a Quote</a><a href="#contact">Dispatch Info</a></div>
       </div>
     </div>
-    <div class="foot-bot"><span>© 2024 Mitija Ecobuild Pvt. Ltd. All rights reserved.</span><span>IS 16714:2018 Certified · GRIHA & LEED Compatible</span></div>
+    <div class="foot-bot"><span>© <span id="year">2026</span> Mitija Ecobuild Pvt. Ltd. All rights reserved.</span><span>IS 16714:2018 Certified · GRIHA & LEED Compatible</span></div>
   </div>
 </footer>
 
@@ -648,6 +648,9 @@
   // activation link to office@mitijaecobuild.com; confirm it to start receiving enquiries.
   var FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/office@mitijaecobuild.com';
 
+  var yearEl = document.getElementById('year');
+  if(yearEl) yearEl.textContent = new Date().getFullYear();
+
   var form = document.getElementById('contact-form');
   var btn = document.getElementById('contact-submit');
   var statusEl = document.getElementById('contact-status');
@@ -674,7 +677,9 @@
       statusEl.className = 'form-status ok';
       form.reset();
     }, function(err){
-      statusEl.textContent = 'Something went wrong sending your enquiry. Please try again or call us directly.';
+      statusEl.textContent = /activat/i.test(err.message)
+        ? 'This form is awaiting activation. Please check office@mitijaecobuild.com for the FormSubmit activation link.'
+        : 'Something went wrong sending your enquiry (' + err.message + '). Please try again or call us directly.';
       statusEl.className = 'form-status err';
       console.error('FormSubmit error:', err);
     }).finally(function(){
